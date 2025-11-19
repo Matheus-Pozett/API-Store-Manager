@@ -1,6 +1,5 @@
 const express = require('express');
-const { getProduct } = require('./models/product.model');
-// const productRouter = require('./routes/products.router');
+const { productRouter } = require('./routes');
 
 const app = express();
 app.use(express.json());
@@ -10,10 +9,6 @@ app.get('/', (_request, response) => {
   response.json({ status: 'Store Manager UP!' });
 });
 
-app.get('/product', async (req, res) => {
-  const pro = await getProduct();
-  console.log(pro);
-  return res.status(200).json(pro);
-});
+app.use('/product', productRouter);
 
 module.exports = app;

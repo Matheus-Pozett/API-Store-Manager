@@ -9,7 +9,6 @@ const getProducts = async () => {
 const getProductById = async (id) => {
   const query = 'SELECT * FROM products WHERE id = ?';
   const [[result]] = await connection.execute(query, [id]);
-
   return result;
 };
 

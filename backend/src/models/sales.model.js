@@ -6,7 +6,7 @@ const getSales = async () => {
     SELECT sp.sale_id, s.date,  sp.product_id, sp.quantity  
     FROM sales AS s
     INNER JOIN sales_products AS sp
-    ON s.id = sp.sale_id;
+    ON s.id = sp.sale_id
     ORDER BY sp.sale_id ASC, sp.product_id ASC;
 `;
 

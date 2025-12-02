@@ -22,4 +22,15 @@ describe.only('SALES SERVICE', function () {
     expect(result.status).to.be.eq('SUCCESSFUL');
     expect(result.data).to.be.deep.equal(mockAllSales);
   });
+
+  it('Retorna a lista de vendas pelo ID e status SUCCESSFUL', async function () {
+    const id = 1;
+    sinon.stub(salesModel, 'getSalesById').resolves(mockSalesById);
+
+    const result = await salesService.getSalesById(id);
+
+    expect(result.status).to.be.eq('SUCCESSFUL');
+    expect(result.data).to.be.deep.equal(mockSalesById);
+    expect(salesModel.getSalesById).to.have.been.calledWith(1);
+  });
 });

@@ -9,12 +9,12 @@ const { expect } = chai;
 
 chai.use(sinonChai);
 
-describe('SALES MODELS', function () {
+describe.only('SALES MODELS', function () {
   afterEach(function () {
     sinon.restore();
   });
 
-  it('É possivel listar todas as vendas e retornar status 200', async function () {
+  it('É possivel listar todas as vendas', async function () {
     // Arrange
     sinon.stub(connection, 'execute').resolves([mockAllSales, []]);
 
@@ -25,5 +25,12 @@ describe('SALES MODELS', function () {
     // Assert
 
     expect(result).to.be.deep.equal(mockAllSales);
+  });
+
+  it('Retorna uma lista de vendas pelo ID', async function () {
+    const id = 1;
+    sinon.stub(connection, 'execute').resolves([mockSalesById, []]);
+    const result = await salesModel.getSalesById(id);
+    expect(result).to.be.deep.equal(mockSalesById);
   });
 });

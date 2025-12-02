@@ -33,4 +33,11 @@ describe.only('SALES MODELS', function () {
     const result = await salesModel.getSalesById(id);
     expect(result).to.be.deep.equal(mockSalesById);
   });
+
+  it('Retorna um array vazio ao não encontrar vendas pelo ID', async function () {
+    const id = 999;
+    sinon.stub(connection, 'execute').resolves([[], []]);
+    const result = await salesModel.getSalesById(id);
+    expect(result).to.be.deep.equal([]);
+  });
 });

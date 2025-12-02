@@ -46,4 +46,22 @@ describe.only('SALES CONTROLLER', function () {
     expect(res.json).to.have.been.calledWith(mockServiceResponseSuccessById.data);
     expect(salesService.getSalesById).to.have.been.calledWith(1);
   });
+
+  it('Retorna statusCode 404 e a mensagem de sale not found ao não encontrar venda por ID', async function () {
+    const req = {
+      params: { id: 999 },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(salesService, 'getSalesById').resolves(mockServiceResponseNotFound);
+
+    await salesController.getSalesById(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
+    expect(salesService.getSalesById).to.have.been.calledWith(999);
+  });
 });

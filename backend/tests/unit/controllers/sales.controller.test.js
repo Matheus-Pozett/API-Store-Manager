@@ -28,4 +28,22 @@ describe.only('SALES CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith(mockServiceResponseSuccess.data);
   });
+
+  it('Retorna statusCode 200 e a lista de vendas por ID', async function () {
+    const req = {
+      params: { id: 1 },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(salesService, 'getSalesById').resolves(mockServiceResponseSuccessById);
+
+    await salesController.getSalesById(req, res);
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseSuccessById.data);
+    expect(salesService.getSalesById).to.have.been.calledWith(1);
+  });
 });

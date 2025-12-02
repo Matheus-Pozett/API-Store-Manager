@@ -1,9 +1,15 @@
 const { salesService } = require('../services');
 const mapStatusHTTP = require('../utils/mapStatusHTTP');
 
-const getSales = async (req, res) => {
+const getSales = async (_req, res) => {
   const { data, status } = await salesService.getSales();
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
-module.exports = { getSales };
+const getSalesById = async (req, res) => {
+  const id = Number(req.params.id);
+  const { data, status } = await salesService.getSalesById(id);
+  return res.status(mapStatusHTTP(status)).json(data);
+};
+
+module.exports = { getSales, getSalesById };

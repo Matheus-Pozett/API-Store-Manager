@@ -8,7 +8,7 @@ const getSales = async () => {
     ON s.id = sp.sale_id;
 `;
 
-  const [result] = connection.execute(sql);
+  const [result] = await connection.execute(sql);
 
   return result;
 };

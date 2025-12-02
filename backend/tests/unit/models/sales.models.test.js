@@ -9,7 +9,7 @@ const { expect } = chai;
 
 chai.use(sinonChai);
 
-describe.only('SALES MODELS', function () {
+describe('SALES MODELS', function () {
   afterEach(function () {
     sinon.restore();
   });

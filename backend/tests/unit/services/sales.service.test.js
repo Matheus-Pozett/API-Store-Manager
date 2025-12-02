@@ -9,7 +9,7 @@ const { expect } = chai;
 
 chai.use(sinonChai);
 
-describe.only('SALES SERVICE', function () {
+describe('SALES SERVICE', function () {
   afterEach(function () {
     sinon.restore();
   });
@@ -32,5 +32,16 @@ describe.only('SALES SERVICE', function () {
     expect(result.status).to.be.eq('SUCCESSFUL');
     expect(result.data).to.be.deep.equal(mockSalesById);
     expect(salesModel.getSalesById).to.have.been.calledWith(1);
+  });
+
+  it('Retorna status NOT_FOUND e uma mensagem de erro', async function () {
+    const id = 999;
+    sinon.stub(salesModel, 'getSalesById').resolves([]);
+
+    const result = await salesService.getSalesById(id);
+
+    expect(result.status).to.be.eq('NOT_FOUND');
+    expect(result.data).to.be.deep.equal({ message: 'Sale not found' });
+    expect(salesModel.getSalesById).to.have.been.calledWith(999);
   });
 });

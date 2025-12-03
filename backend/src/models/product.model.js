@@ -15,6 +15,7 @@ const getProductById = async (id) => {
 const findProductByName = async (name) => {
   const sql = 'SELECT * FROM products WHERE name = ?';
   const [[result]] = await connection.execute(sql, [name]);
+
   return result;
 };
 

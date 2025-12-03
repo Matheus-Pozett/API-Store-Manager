@@ -57,4 +57,22 @@ describe('PRODUCT MODEL', function () {
 
     expect(result).to.be.deep.equal({ id: 1, name: 'productX' });
   });
+
+  it('Retorna o produto caso já exista no banco', async function () {
+    const name = 'teste';
+    sinon.stub(connection, 'execute').resolves([[{ id: 1, name }], []]);
+
+    const result = await productModel.findProductByName(name);
+    
+    expect(result).to.be.deep.equal({ id: 1, name: 'teste' });
+  });
+
+  it('Retorna undefined caso não exista o produto no banco', async function () {
+    const name = 'teste';
+    sinon.stub(connection, 'execute').resolves([[], []]);
+
+    const result = await productModel.findProductByName(name);
+
+    expect(result).to.be.eq(undefined);
+  });
 });

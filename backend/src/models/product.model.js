@@ -21,9 +21,14 @@ const findProductByName = async (name) => {
 const createProduct = async (product) => {
   const { name } = product;
   const sql = 'INSERT INTO products (name) VALUES (?)';
-  const [result] = await connection.execute(sql, [name]);
+  const [{ insertId }] = await connection.execute(sql, [name]);
 
-  return result;
+  const newProduct = {
+    id: insertId,
+    name,
+  };
+  
+  return newProduct;
 };
 
 module.exports = { 

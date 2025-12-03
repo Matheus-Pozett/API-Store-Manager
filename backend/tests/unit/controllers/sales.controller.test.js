@@ -70,7 +70,7 @@ describe('SALES CONTROLLER', function () {
     expect(salesService.getSalesById).to.have.been.calledWith(999);
   });
 
-  it.only('Retorna statusCode 201 e venda cadastrada', async function () {
+  it('Retorna statusCode 201 e venda cadastrada', async function () {
     const req = {
       body: [
         {

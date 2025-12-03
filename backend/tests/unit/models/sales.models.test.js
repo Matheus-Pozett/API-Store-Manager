@@ -40,4 +40,12 @@ describe('SALES MODELS', function () {
     const result = await salesModel.getSalesById(id);
     expect(result).to.be.deep.equal([]);
   });
+
+  it('Cadastra venda no banco', async function () {
+    const id = 1;
+    sinon.stub(connection, 'execute').resolves([{ insertId: 1 }, []]);
+    const result = await salesModel.createSales();
+    console.log(result);
+    expect(result).to.be.deep.equal(id);
+  });
 });

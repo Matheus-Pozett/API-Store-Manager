@@ -16,4 +16,16 @@ const getProductById = async (id) => {
   return { status: 'SUCCESSFUL', data: product };
 };
 
-module.exports = { getProducts, getProductById };
+const createProduct = async (product) => {
+  const existingProduct = await productModel.findProductByName(product.name);
+
+  if (!existingProduct) {
+    return { status: 'CONFLICT', data: { message: 'Product already exists' } };
+  }
+
+  const result = await productModel.createProduct(product);
+
+  return { status: 'CREATED', data: result };
+};
+
+module.exports = { getProducts, getProductById, createProduct };

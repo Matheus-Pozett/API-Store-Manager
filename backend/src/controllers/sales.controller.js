@@ -12,4 +12,12 @@ const getSalesById = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
-module.exports = { getSales, getSalesById };
+const createSale = async (req, res) => {
+  const sales = req.body;
+
+  const { status, data } = await salesService.createSales(sales);
+
+  return res.status(mapStatusHTTP(status)).json(data);
+};
+
+module.exports = { getSales, getSalesById, createSale };

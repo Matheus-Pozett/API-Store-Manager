@@ -27,5 +27,4 @@ const createProduct = async (product) => {
 
   return { status: 'CREATED', data: result };
 };
-
 module.exports = { getProducts, getProductById, createProduct };

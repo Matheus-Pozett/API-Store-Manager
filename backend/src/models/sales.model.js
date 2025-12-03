@@ -45,14 +45,7 @@ const createSalesProducts = async (sales) => {
     VALUES (?, ?, ?);
   `;
 
-  const [result] = await connection.execute(sql, [saleId, productId, quantity]);
-
-  const newSale = {
-    id: saleId,
-    itemsSold: result,
-  };
-
-  return newSale;
+  await connection.execute(sql, [saleId, productId, quantity]);
 };
 
-module.exports = { getSales, getSalesById, createSalesProducts };
+module.exports = { getSales, getSalesById, createSales, createSalesProducts };

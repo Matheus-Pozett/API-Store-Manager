@@ -5,6 +5,6 @@ const router = Router();
 
 router.get('/', salesController.getSales);
 router.get('/:id', salesController.getSalesById);
-router.post('/');
+router.post('/', salesController.createSale);
 
 module.exports = router;

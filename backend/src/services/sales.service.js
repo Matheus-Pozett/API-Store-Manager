@@ -16,4 +16,15 @@ const getSalesById = async (id) => {
   return { status: 'SUCCESSFUL', data: sales };
 };
 
-module.exports = { getSales, getSalesById };
+const createSales = async (sales) => {
+  const saleId = await salesModel.createSales();
+
+  const saleProduct = sales.map((sale) => 
+    salesModel.createSalesProducts({ saleId, ...sale }));
+
+  await Promise.all(saleProduct);
+  
+  return { status: 'CREATED', data: { id: saleId, itemsSold: sales } };
+};
+
+module.exports = { getSales, getSalesById, createSales };

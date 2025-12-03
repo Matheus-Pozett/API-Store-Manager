@@ -63,4 +63,17 @@ describe('PRODUCT SERVICE', function () {
     expect(result.status).to.be.eq('CREATED');
     expect(result.data).to.be.deep.equal(mockProductsById);
   });
+
+  it('Retorna status 409 e mensagem de produto já existe no banco', async function () {
+    const product = {
+      name: 'Martelo de Thor',
+    };
+
+    sinon.stub(productModel, 'findProductByName').resolves(mockProductsById);
+
+    const result = await productService.createProduct(product);
+
+    expect(result.status).to.be.eq('CONFLICT');
+    expect(result.data).to.be.deep.equal({ message: 'Product already exists' });
+  });
 });

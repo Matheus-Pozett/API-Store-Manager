@@ -38,18 +38,17 @@ const createSales = async () => {
 };
 
 const createSalesProducts = async (sales) => {
-  const { productId, quantity } = sales;
-  const id = createSales();
+  const { saleId, productId, quantity } = sales;
 
   const sql = `
     INSERT INTO sales_products (sale_id, product_id, quantity)
     VALUES (?, ?, ?);
   `;
 
-  const [result] = await connection.execute(sql, [id, productId, quantity]);
+  const [result] = await connection.execute(sql, [saleId, productId, quantity]);
 
   const newSale = {
-    id,
+    id: saleId,
     itemsSold: result,
   };
 

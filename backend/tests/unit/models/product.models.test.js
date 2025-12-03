@@ -45,4 +45,16 @@ describe('PRODUCT MODEL', function () {
 
     expect(result).to.be.eq(undefined);
   });
+
+  it('Cadastra produto com sucesso', async function () {
+    const product = {
+      name: 'productX',
+    };
+
+    sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
+
+    const result = await productModel.createProduct(product);
+
+    expect(result).to.be.deep.equal({ id: 1, name: 'productX' });
+  });
 });

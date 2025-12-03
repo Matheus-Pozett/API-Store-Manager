@@ -43,10 +43,28 @@ const mockServiceResponseSuccessById = {
 const mockServiceResponseNotFound = {
   status: 'NOT_FOUND',
   data: { message: 'Sale not found' },
-}; 
+};
+
+const mockCreatedSales = {
+  status: 'CREATED',
+  data: {
+    id: 15,
+    itemsSold: [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+      {
+        productId: 2,
+        quantity: 5,
+      },
+    ],
+  },
+};
 
 module.exports = { 
   mockServiceResponseSuccess, 
   mockServiceResponseSuccessById,
-  mockServiceResponseNotFound, 
+  mockServiceResponseNotFound,
+  mockCreatedSales,
 };

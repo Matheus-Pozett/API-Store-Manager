@@ -48,4 +48,19 @@ describe('PRODUCT SERVICE', function () {
     expect(result.data).to.be.deep.equal({ message: 'Product not found' });
     expect(productModel.getProductById).to.have.been.calledWith(999);
   });
+
+  it('Retorna status 201 e o produto criado', async function () {
+    const product = {
+      name: 'Martelo de Thor',
+    };
+
+    sinon.stub(productModel, 'findProductByName').resolves(undefined);
+
+    sinon.stub(productModel, 'createProduct').resolves(mockProductsById);
+
+    const result = await productService.createProduct(product);
+
+    expect(result.status).to.be.eq('CREATED');
+    expect(result.data).to.be.deep.equal(mockProductsById);
+  });
 });

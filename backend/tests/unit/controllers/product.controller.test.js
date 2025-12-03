@@ -1,7 +1,13 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
-const { mockServiceResponseSuccess, mockServiceResponseSuccessById, mockServiceResponseNotFound } = require('./mocks/mocksProductController');
+const { 
+  mockServiceResponseSuccess, 
+  mockServiceResponseSuccessById, 
+  mockServiceResponseNotFound, 
+  mockServiceResponseCreated,
+  mockServiceResponseProductExist, 
+} = require('./mocks/mocksProductController');
 const { productService } = require('../../../src/services/index');
 const { productController } = require('../../../src/controllers/index');
   
@@ -73,5 +79,52 @@ describe('PRODUCT CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
     expect(productService.getProductById).to.have.been.calledWith(999);
+  });
+
+  it('Cadastra produto com sucesso e retorna statusCode 201', async function () {
+    // Arrange
+
+    const req = {
+      body: { name: 'Teste' },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'createProduct').resolves(mockServiceResponseCreated);
+
+    // Act
+
+    await productController.createProduct(req, res);
+
+    // Assert
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseCreated.data);
+  });
+
+  it('Não cadastra produto que já existe e retorna statusCode 409', async function () {
+    // Arrange
+
+    const req = {
+      body: { name: 'Teste' },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'createProduct').resolves(mockServiceResponseProductExist);
+
+    // Act
+
+    await productController.createProduct(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(409);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseProductExist.data);
   });
 });

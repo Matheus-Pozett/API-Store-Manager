@@ -19,7 +19,7 @@ const getProductById = async (id) => {
 const createProduct = async (product) => {
   const existingProduct = await productModel.findProductByName(product.name);
 
-  if (!existingProduct) {
+  if (existingProduct) {
     return { status: 'CONFLICT', data: { message: 'Product already exists' } };
   }
 

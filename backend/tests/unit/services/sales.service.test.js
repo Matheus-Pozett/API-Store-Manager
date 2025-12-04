@@ -44,4 +44,37 @@ describe('SALES SERVICE', function () {
     expect(result.data).to.be.deep.equal({ message: 'Sale not found' });
     expect(salesModel.getSalesById).to.have.been.calledWith(999);
   });
+
+  it.only('Retorna status CREATED e a lista de venda(s) cadastradas', async function () {
+    const sales = [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+      {
+        productId: 2,
+        quantity: 5,
+      },
+    ];
+
+    sinon.stub(salesModel, 'createSales').resolves(1);
+    sinon.stub(salesModel, 'createSalesProducts').resolves(undefined);
+
+    const result = await salesService.createSales(sales);
+
+    expect(result.status).to.be.eq('CREATED');
+    expect(result.data).to.be.deep.equal({
+      id: 1,
+      itemsSold: [
+        {
+          productId: 1,
+          quantity: 1,
+        },
+        {
+          productId: 2,
+          quantity: 5,
+        },
+      ],
+    });
+  });
 });

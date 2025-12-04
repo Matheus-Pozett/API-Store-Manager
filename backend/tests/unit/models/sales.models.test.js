@@ -45,7 +45,6 @@ describe('SALES MODELS', function () {
     const id = 1;
     sinon.stub(connection, 'execute').resolves([{ insertId: 1 }, []]);
     const result = await salesModel.createSales();
-    console.log(result);
     expect(result).to.be.deep.equal(id);
   });
 });

@@ -76,4 +76,26 @@ describe('PRODUCT SERVICE', function () {
     expect(result.status).to.be.eq('CONFLICT');
     expect(result.data).to.be.deep.equal({ message: 'Product already exists' });
   });
+
+  it('Retorna status 204 para caso de produto deletado com sucesso', async function () {
+    const id = 1;
+
+    sinon.stub(productModel, 'deleteProduct').resolves(1);
+
+    const result = await productService.deleteProduct(id);
+
+    expect(result.status).to.be.eq('NO_CONTENT');
+    expect(result.data).to.be.eq(undefined);
+  });
+
+  it('Retorna status 404 para caso produto não seja encontrado ao tentar deletar', async function () {
+    const id = 1;
+
+    sinon.stub(productModel, 'deleteProduct').resolves(0);
+
+    const result = await productService.deleteProduct(id);
+
+    expect(result.status).to.be.eq('NOT_FOUND');
+    expect(result.data).to.be.deep.equal({ message: 'Product not found' });
+  });
 });

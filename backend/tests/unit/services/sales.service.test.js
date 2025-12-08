@@ -2,7 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const { mockAllSales, mockSalesById } = require('../models/mocks/mocksSales');
-const { salesModel } = require('../../../src/models');
+const { salesModel, productModel } = require('../../../src/models');
 const { salesService } = require('../../../src/services');
 
 const { expect } = chai;
@@ -45,7 +45,7 @@ describe('SALES SERVICE', function () {
     expect(salesModel.getSalesById).to.have.been.calledWith(999);
   });
 
-  it.only('Retorna status CREATED e a lista de venda(s) cadastradas', async function () {
+  it('Retorna status CREATED e a lista de venda(s) cadastradas', async function () {
     const sales = [
       {
         productId: 1,
@@ -76,5 +76,21 @@ describe('SALES SERVICE', function () {
         },
       ],
     });
+  });
+
+  it('Retorna status 404 e mensagem de produto não encontrado caso não exista no banco de dados', async function () {
+    const sales = [
+      {
+        productId: 999,
+        quantity: 1,
+      },
+    ];
+
+    sinon.stub(productModel, 'getProductById').resolves(undefined);
+
+    const result = await salesService.createSales(sales);
+    
+    expect(result.status).to.be.eq('NOT_FOUND');
+    expect(result.data).to.be.deep.equal({ message: 'Product not found' });
   });
 });

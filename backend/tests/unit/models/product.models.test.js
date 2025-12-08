@@ -75,4 +75,22 @@ describe('PRODUCT MODEL', function () {
 
     expect(result).to.be.eq(undefined);
   });
+
+  it('Deleta um produto do banco de dados', async function () {
+    const id = 1;
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }, []]);
+
+    const result = await productModel.deleteProduct(id);
+
+    expect(result).to.be.eq(1);
+  });
+
+  it('Não deleta um produto do banco de dados', async function () {
+    const id = 1;
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 0 }, []]);
+
+    const result = await productModel.deleteProduct(id);
+
+    expect(result).to.be.eq(0);
+  });
 });

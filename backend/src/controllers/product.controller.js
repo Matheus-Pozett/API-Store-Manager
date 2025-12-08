@@ -21,4 +21,11 @@ const createProduct = async (req, res) => {
   res.status(mapStatusHTTP(status)).json(data);
 };
 
-module.exports = { getProducts, getProductById, createProduct };
+const deleteProduct = async (req, res) => {
+  const id = Number(req.params.id);
+  const { data, status } = await productService.deleteProduct(id);
+
+  res.status(mapStatusHTTP(status)).json(data);
+};
+
+module.exports = { getProducts, getProductById, createProduct, deleteProduct };

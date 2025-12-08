@@ -32,7 +32,7 @@ const deleteProduct = async (id) => {
   const itemsDeleted = await productModel.deleteProduct(id);
 
   if (itemsDeleted === 0) {
-    return { status: 404, data: { message: 'Product not found' } };
+    return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
   }
 
   return { status: 'NO_CONTENT' };

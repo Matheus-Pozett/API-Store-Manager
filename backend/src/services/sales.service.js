@@ -33,4 +33,14 @@ const createSales = async (sales) => {
   return { status: 'CREATED', data: { id: saleId, itemsSold: sales } };
 };
 
-module.exports = { getSales, getSalesById, createSales };
+const deleteSale = async (id) => {
+  const itemsDeleted = await salesModel.deleteSales(id);
+
+  if (itemsDeleted === 0) {
+    return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+  }
+
+  return { status: 'NO_CONTENT' };
+};
+
+module.exports = { getSales, getSalesById, createSales, deleteSale };

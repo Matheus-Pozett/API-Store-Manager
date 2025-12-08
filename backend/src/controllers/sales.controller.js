@@ -20,4 +20,11 @@ const createSale = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
-module.exports = { getSales, getSalesById, createSale };
+const deleteSale = async (req, res) => {
+  const id = Number(req.params.id);
+  const { data, status } = await salesService.deleteSale(id);
+
+  res.status(mapStatusHTTP(status)).json(data);
+};
+
+module.exports = { getSales, getSalesById, createSale, deleteSale };

@@ -32,9 +32,17 @@ const createProduct = async (product) => {
   return newProduct;
 };
 
+const deleteProduct = async (id) => {
+  const sql = 'DELETE FROM products WHERE id = ?';
+  const [{ affectedRows }] = await connection.execute(sql, [id]);
+
+  return affectedRows;
+};
+
 module.exports = { 
   getProducts, 
   getProductById,
   createProduct,
-  findProductByName, 
+  findProductByName,
+  deleteProduct, 
 };

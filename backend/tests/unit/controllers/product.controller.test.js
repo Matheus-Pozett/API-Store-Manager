@@ -127,4 +127,48 @@ describe('PRODUCT CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(409);
     expect(res.json).to.have.been.calledWith(mockServiceResponseProductExist.data);
   });
+
+  it('Deleta produto e retorna httpStatus 204 sem body', async function () {
+    // Arrange
+    const req = {
+      params: { id: 1 },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'deleteProduct').resolves({ status: 'NO_CONTENT', data: undefined });
+
+    // Act
+
+    await productController.deleteProduct(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith(undefined);
+  });
+
+  it('Retorna not found caso não exista produto para deletar', async function () {
+    // Arrange
+    const req = {
+      params: { id: 1 },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'deleteProduct').resolves(mockServiceResponseNotFound);
+
+    // Act
+
+    await productController.deleteProduct(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
+  });
 });

@@ -38,4 +38,19 @@ const deleteProduct = async (id) => {
   return { status: 'NO_CONTENT' };
 };
 
-module.exports = { getProducts, getProductById, createProduct, deleteProduct };
+const updateProduct = async (product) => {
+  const itemUpdate = await productModel.updateProduct(product);
+  
+  if (itemUpdate === 0) {
+    return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+  }
+
+  return { status: 'SUCCESSFUL', data: itemUpdate };
+};
+
+module.exports = { getProducts, 
+  getProductById, 
+  createProduct,
+  deleteProduct,
+  updateProduct,
+};

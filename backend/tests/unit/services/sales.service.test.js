@@ -93,4 +93,26 @@ describe('SALES SERVICE', function () {
     expect(result.status).to.be.eq('NOT_FOUND');
     expect(result.data).to.be.deep.equal({ message: 'Product not found' });
   });
+
+  it('Retorna status 204 para caso de uma venda deletada com sucesso', async function () {
+    const id = 1;
+
+    sinon.stub(salesModel, 'deleteSales').resolves(1);
+
+    const result = await salesService.deleteSale(id);
+
+    expect(result.status).to.be.eq('NO_CONTENT');
+    expect(result.data).to.be.eq(undefined);
+  });
+
+  it('Retorna status 404 para caso venda não seja encontrada ao tentar deletar', async function () {
+    const id = 1;
+
+    sinon.stub(salesModel, 'deleteSales').resolves(0);
+
+    const result = await salesService.deleteSale(id);
+
+    expect(result.status).to.be.eq('NOT_FOUND');
+    expect(result.data).to.be.deep.equal({ message: 'Sale not found' });
+  });
 });

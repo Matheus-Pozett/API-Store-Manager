@@ -47,4 +47,22 @@ describe('SALES MODELS', function () {
     const result = await salesModel.createSales();
     expect(result).to.be.deep.equal(id);
   });
+
+  it('Deleta uma venda do banco de dados', async function () {
+    const id = 1;
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }, []]);
+
+    const result = await salesModel.deleteSales(id);
+
+    expect(result).to.be.eq(1);
+  });
+
+  it('Não deleta uma venda do banco de dados', async function () {
+    const id = 1;
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 0 }, []]);
+
+    const result = await salesModel.deleteSales(id);
+
+    expect(result).to.be.eq(0);
+  });
 });

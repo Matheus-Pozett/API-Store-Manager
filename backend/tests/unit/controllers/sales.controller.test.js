@@ -118,4 +118,47 @@ describe('SALES CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
   });
+
+  it('Deleta venda e retorna httpStatus 204 sem body', async function () {
+    // Arrange
+    const req = {
+      params: { id: 1 },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(salesService, 'deleteSale').resolves({ status: 'NO_CONTENT', data: undefined });
+
+    // Act
+
+    await salesController.deleteSale(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith(undefined);
+  });
+
+  it('Retorna not found caso não exista venda para deletar', async function () {
+    // Arrange
+    const req = {
+      params: { id: 1 },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(salesService, 'deleteSale').resolves(mockServiceResponseNotFound);
+
+    // Act
+    await salesController.deleteSale(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
+  });
 });

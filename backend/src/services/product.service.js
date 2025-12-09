@@ -53,9 +53,21 @@ const updateProduct = async (product) => {
   return { status: 'SUCCESSFUL', data: productUpdated };
 };
 
+const searchProductByQuery = async (q) => {
+  if (!q) {
+    const allProducts = await productModel.getProducts();
+    return { status: 'SUCCESSFUL', data: allProducts };
+  }
+
+  const product = await productModel.searchProductByQuery(q);
+
+  return { status: 'SUCCESSFUL', data: product };
+};
+
 module.exports = { getProducts, 
   getProductById, 
   createProduct,
   deleteProduct,
   updateProduct,
+  searchProductByQuery,
 };

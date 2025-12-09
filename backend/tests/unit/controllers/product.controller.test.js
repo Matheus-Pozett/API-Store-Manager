@@ -265,7 +265,7 @@ describe('PRODUCT CONTROLLER', function () {
     expect(res.json).to.have.been.calledWith([]);
   });
 
-  it.only('Retorna todos os produtos caso query seja undefined', async function () {
+  it('Retorna todos os produtos caso query seja undefined', async function () {
     // Arrange
     const req = {
       query: { q: undefined },

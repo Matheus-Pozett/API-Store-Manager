@@ -115,4 +115,53 @@ describe('SALES SERVICE', function () {
     expect(result.status).to.be.eq('NOT_FOUND');
     expect(result.data).to.be.deep.equal({ message: 'Sale not found' });
   });
+
+  it('Retorna erro "Sale not found" caso a venda não exista', async function () {
+    const saleId = 999;
+    const productId = 1;
+    const quantity = 10;
+
+    sinon.stub(salesModel, 'getSalesById').resolves([]); 
+
+    const result = await salesService.updateSaleProductQuantity(saleId, productId, quantity);
+
+    expect(result.status).to.be.equal('NOT_FOUND');
+    expect(result.data).to.be.deep.equal({ message: 'Sale not found' });
+  });
+
+  it('Retorna erro "Product not found in sale" caso o produto não exista na venda', async function () {
+    const saleId = 1;
+    const productId = 999;
+    const quantity = 10;
+
+    sinon.stub(salesModel, 'getSalesById').resolves([{ date: '2025-01-01T00:00:00.000Z', id: 1 }]);
+    sinon.stub(salesModel, 'getSaleProduct').resolves([]);
+
+    const result = await salesService.updateSaleProductQuantity(saleId, productId, quantity);
+
+    expect(result.status).to.be.equal('NOT_FOUND');
+    expect(result.data).to.be.deep.equal({ message: 'Product not found in sale' });
+  });
+
+  it('Retorna sucesso e o objeto atualizado corretamente', async function () {
+    const saleId = 1;
+    const productId = 2;
+    const quantity = 50;
+    const mockDate = '2025-01-01T00:00:00.000Z';
+
+    sinon.stub(salesModel, 'getSalesById').resolves([{ date: mockDate, id: 1 }]);
+    
+    sinon.stub(salesModel, 'getSaleProduct').resolves([{ saleId: 1, productId: 2 }]);
+    
+    sinon.stub(salesModel, 'updateSaleProductQuantity').resolves(1);
+    const result = await salesService.updateSaleProductQuantity(saleId, productId, quantity);
+
+    expect(result.status).to.be.equal('SUCCESSFUL');
+    expect(result.data).to.be.deep.equal({
+      saleId: 1,
+      productId: 2,
+      quantity: 50,
+      date: mockDate,
+    });
+  });
 });

@@ -65,4 +65,41 @@ describe('SALES MODELS', function () {
 
     expect(result).to.be.eq(0);
   });
+
+  it('Retorna o produto da venda caso ele exista', async function () {
+    const saleId = 1;
+    const productId = 2;
+    const mockResult = [{ saleId: 1, productId: 2, quantity: 5 }];
+
+    sinon.stub(connection, 'execute').resolves([mockResult, []]);
+
+    const result = await salesModel.getSaleProduct(saleId, productId);
+
+    expect(result).to.be.deep.equal(mockResult);
+  });
+
+  it('Retorna array vazio caso o produto não exista na venda', async function () {
+    const saleId = 1;
+    const productId = 999;
+
+    sinon.stub(connection, 'execute').resolves([[], []]);
+
+    const result = await salesModel.getSaleProduct(saleId, productId);
+
+    expect(result).to.be.deep.equal([]);
+  });
+
+  it('Atualiza a quantidade com sucesso e retorna affectedRows = 1', async function () {
+    const saleId = 1;
+    const productId = 2;
+    const quantity = 20;
+
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }, []]);
+
+    const result = await salesModel.updateSaleProductQuantity(saleId, productId, quantity);
+
+    expect(result).to.be.equal(1);
+
+    expect(connection.execute.firstCall.args[1]).to.deep.equal([quantity, saleId, productId]);
+  });
 });

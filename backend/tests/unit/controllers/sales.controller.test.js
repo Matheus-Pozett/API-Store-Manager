@@ -161,4 +161,84 @@ describe('SALES CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
   });
+
+  it('Retorna status 200 e o item atualizado com sucesso', async function () {
+    // Arrange
+    const req = {
+      params: { saleId: 1, productId: 2 },
+      body: { quantity: 20 },
+    };
+
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    const mockServiceResponse = {
+      status: 'SUCCESSFUL',
+      data: {
+        saleId: 1,
+        productId: 2,
+        quantity: 20,
+        date: '2023-05-06T03:14:28.000Z',
+      },
+    };
+
+    sinon.stub(salesService, 'updateSaleProductQuantity').resolves(mockServiceResponse);
+
+    // Act
+    await salesController.updateSaleProductQuantity(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(mockServiceResponse.data);
+  });
+
+  it('Retorna status 404 e mensagem de erro quando a venda não é encontrada', async function () {
+    const req = {
+      params: { saleId: 999, productId: 2 },
+      body: { quantity: 20 },
+    };
+
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    const mockServiceError = {
+      status: 'NOT_FOUND',
+      data: { message: 'Sale not found' },
+    };
+
+    sinon.stub(salesService, 'updateSaleProductQuantity').resolves(mockServiceError);
+
+    await salesController.updateSaleProductQuantity(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(mockServiceError.data);
+  });
+
+  it('Retorna status 404 e mensagem de erro quando o produto não existe na venda', async function () {
+    const req = {
+      params: { saleId: 1, productId: 999 },
+      body: { quantity: 20 },
+    };
+
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    const mockServiceError = {
+      status: 'NOT_FOUND',
+      data: { message: 'Product not found in sale' },
+    };
+
+    sinon.stub(salesService, 'updateSaleProductQuantity').resolves(mockServiceError);
+
+    await salesController.updateSaleProductQuantity(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(mockServiceError.data);
+  });
 });

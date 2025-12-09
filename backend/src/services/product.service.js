@@ -45,7 +45,12 @@ const updateProduct = async (product) => {
     return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
   }
 
-  return { status: 'SUCCESSFUL', data: itemUpdate };
+  const productUpdated = {
+    id: product.id,
+    name: product.name,
+  };
+
+  return { status: 'SUCCESSFUL', data: productUpdated };
 };
 
 module.exports = { getProducts, 

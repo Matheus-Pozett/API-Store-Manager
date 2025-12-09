@@ -11,16 +11,9 @@
   },
   "scripts": {
     "dev:local": "npm run dev --prefix backend",
-    "test": "npm test --prefix __tests__",
-    "cy:open": "npm run cy:open --prefix __tests__",
     "test:mocha": "npm run test:mocha --prefix backend",
     "test:coverage": "npm run test:coverage --prefix backend",
-    "test:mutation": "npm run test:mutation --prefix backend",
-    "lint": "npm run lint --prefix __tests__ && npm run lint --prefix backend",
-    "migration": "node -e \"require('./__tests__/cypress/utils/db').runMigration()\"",
-    "seed": "node -e \"require('./__tests__/cypress/utils/db').runSeed()\"",
-    "db:reset": "npm run migration && npm run seed",
-    "postinstall": "npm install --prefix __tests__ && npm install --prefix backend"
+    "test:mutation": "npm run test:mutation --prefix backend"
   },
   "dependencies": {
     "camelize": "^1.0.1"

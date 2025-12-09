@@ -43,4 +43,27 @@ const deleteSale = async (id) => {
   return { status: 'NO_CONTENT' };
 };
 
-module.exports = { getSales, getSalesById, createSales, deleteSale };
+const updateSaleProductQuantity = async (saleId, productId, quantity) => {
+  const saleExists = await salesModel.getSalesById(saleId); 
+  if (!saleExists || saleExists.length === 0) {
+    return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+  }
+
+  const productInSale = await salesModel.getSaleProduct(saleId, productId);
+  if (!productInSale || productInSale.length === 0) {
+    return { status: 'NOT_FOUND', data: { message: 'Product not found in sale' } };
+  }
+  
+  await salesModel.updateSaleProductQuantity(saleId, productId, quantity);
+  
+  const updatedSale = {
+    date: saleExists[0].date, 
+    productId: Number(productId),
+    quantity,
+    saleId: Number(saleId),
+  };
+
+  return { status: 'SUCCESSFUL', data: updatedSale };
+};
+
+module.exports = { getSales, getSalesById, createSales, deleteSale, updateSaleProductQuantity };

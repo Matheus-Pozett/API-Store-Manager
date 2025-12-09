@@ -55,10 +55,29 @@ const deleteSales = async (id) => {
   return affectedRows;
 };
 
+const getSaleProduct = async (saleId, productId) => {
+  const sql = 'SELECT * FROM sales_products WHERE sale_id = ? AND product_id = ?';
+  const [result] = await connection.execute(sql, [saleId, productId]);
+  return result;
+};
+
+const updateSaleProductQuantity = async (saleId, productId, quantity) => {
+  const sql = `
+    UPDATE sales_products 
+    SET quantity = ? 
+    WHERE sale_id = ? AND product_id = ?
+  `;
+  
+  const [{ affectedRows }] = await connection.execute(sql, [quantity, saleId, productId]);
+  return affectedRows;
+};
+
 module.exports = { 
   getSales, 
   getSalesById,
   createSales,
   createSalesProducts,
   deleteSales, 
+  getSaleProduct,
+  updateSaleProductQuantity,
 };

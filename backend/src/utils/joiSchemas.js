@@ -22,4 +22,11 @@ const salesSchema = Joi.array().items(
   ),
 );
 
-module.exports = { productSchema, salesSchema };
+const updateSaleSchema = Joi.object({
+  quantity: Joi.number().min(1).required().messages({
+    'any.required': '"quantity" is required',
+    'number.min': '"quantity" must be greater than or equal to 1',
+  }),
+});
+
+module.exports = { productSchema, salesSchema, updateSaleSchema };

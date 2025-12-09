@@ -51,11 +51,19 @@ const updateProduct = async (product) => {
   return affectedRows;
 };
 
+const searchProductByQuery = async (q) => {
+  const sql = 'SELECT * FROM products WHERE name LIKE ?';
+  const [result] = await connection.execute(sql, [`%${q}%`]);
+
+  return result;
+};
+
 module.exports = { 
   getProducts, 
   getProductById,
   createProduct,
   findProductByName,
   deleteProduct,
-  updateProduct, 
+  updateProduct,
+  searchProductByQuery, 
 };

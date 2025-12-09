@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
@@ -7,7 +8,8 @@ const {
   mockServiceResponseNotFound, 
   mockServiceResponseCreated,
   mockServiceResponseProductExist,
-  mockServiceResponseUpdated, 
+  mockServiceResponseUpdated,
+  mockServiceResponseSuccessByQuery, 
 } = require('./mocks/mocksProductController');
 const { productService } = require('../../../src/services/index');
 const { productController } = require('../../../src/controllers/index');
@@ -217,5 +219,71 @@ describe('PRODUCT CONTROLLER', function () {
     // Assert
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
+  });
+
+  it('Busca produto via query com sucesso', async function () {
+    // Arrange
+    const req = {
+      query: { q: 'martelo' },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'searchProductByQuery').resolves(mockServiceResponseSuccessByQuery);
+
+    // Act
+
+    await productController.searchProductByQuery(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseSuccessByQuery.data);
+  });
+
+  it('Retorna array vazio e status 200 para busca via query com valor não encontrado no banco', async function () {
+    // Arrange
+    const req = {
+      query: { q: 'martelo' },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'searchProductByQuery').resolves({ status: 'SUCCESSFUL', data: [] });
+
+    // Act
+
+    await productController.searchProductByQuery(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith([]);
+  });
+
+  it.only('Retorna todos os produtos caso query seja undefined', async function () {
+    // Arrange
+    const req = {
+      query: { q: undefined },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'searchProductByQuery').resolves(mockServiceResponseSuccess);
+
+    // Act
+
+    await productController.searchProductByQuery(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseSuccess.data);
   });
 });

@@ -119,4 +119,25 @@ describe('PRODUCT MODEL', function () {
 
     expect(result).to.be.eq(0);
   });
+
+  it('Busca produto por query', async function () {
+    const q = 'martelo';
+
+    sinon.stub(connection, 'execute').resolves([[mockProductsById], []]);
+
+    const result = await productModel.searchProductByQuery(q);
+
+    expect(result).to.be.deep.equal([mockProductsById]);
+    expect(connection.execute.firstCall.args[1][0]).to.equal('%martelo%');
+  });
+
+  it('Retorna [] para busca sem sucesso do produto por query', async function () {
+    const q = 'asdasd';
+
+    sinon.stub(connection, 'execute').resolves([[], []]);
+
+    const result = await productModel.searchProductByQuery(q);
+
+    expect(result).to.be.deep.equal([]);
+  });
 });

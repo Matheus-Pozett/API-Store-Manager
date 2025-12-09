@@ -60,7 +60,7 @@ const searchProductByQuery = async (q) => {
   }
 
   const product = await productModel.searchProductByQuery(q);
-
+  
   return { status: 'SUCCESSFUL', data: product };
 };
 

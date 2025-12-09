@@ -24,6 +24,14 @@ const mockServiceResponseSuccessById = {
   },
 }; 
 
+const mockServiceResponseSuccessByQuery = {
+  status: 'SUCCESSFUL',
+  data: [{
+    id: 1,
+    name: 'Martelo de Thor',
+  }],
+}; 
+
 const mockServiceResponseNotFound = {
   status: 'NOT_FOUND',
   data: { message: 'Product not found' },
@@ -57,4 +65,5 @@ module.exports = {
   mockServiceResponseCreated,
   mockServiceResponseProductExist, 
   mockServiceResponseUpdated,
+  mockServiceResponseSuccessByQuery,
 };

@@ -126,4 +126,37 @@ describe('PRODUCT SERVICE', function () {
     expect(result.status).to.be.eq('NOT_FOUND');
     expect(result.data).to.be.deep.equal({ message: 'Product not found' });
   });
+
+  it('Retorna status 200 e o produto buscado pela query', async function () {
+    const q = 'martelo';
+
+    sinon.stub(productModel, 'searchProductByQuery').resolves([mockProductsById]);
+
+    const result = await productService.searchProductByQuery(q);
+
+    expect(result.status).to.be.eq('SUCCESSFUL');
+    expect(result.data).to.be.deep.equal([mockProductsById]);
+  });
+
+  it('Retorna status 200 e um array vazio caso não encontre nenhum produto via query', async function () {
+    const q = 'aaaasd';
+
+    sinon.stub(productModel, 'searchProductByQuery').resolves([]);
+
+    const result = await productService.searchProductByQuery(q);
+
+    expect(result.status).to.be.eq('SUCCESSFUL');
+    expect(result.data).to.be.deep.equal([]);
+  });
+
+  it('Se query for undefined chama a função getProducts', async function () {
+    const q = undefined;
+
+    sinon.stub(productModel, 'getProducts').resolves(mockAllProducts);
+
+    const result = await productService.searchProductByQuery(q);
+
+    expect(result.status).to.be.eq('SUCCESSFUL');
+    expect(result.data).to.be.deep.equal(mockAllProducts);
+  });
 });

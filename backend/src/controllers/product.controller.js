@@ -38,7 +38,7 @@ const updateProduct = async (req, res) => {
 
 const searchProductByQuery = async (req, res) => {
   const { q } = req.query;
-  console.log(q);
+  
   const { status, data } = await productService.searchProductByQuery(q);
 
   return res.status(mapStatusHTTP(status)).json(data);

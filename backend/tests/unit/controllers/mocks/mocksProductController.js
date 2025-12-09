@@ -37,6 +37,14 @@ const mockServiceResponseCreated = {
   },
 };
 
+const mockServiceResponseUpdated = {
+  status: 'SUCCESSFUL',
+  data: {
+    id: 1,
+    name: 'testee',
+  },
+};
+
 const mockServiceResponseProductExist = {
   status: 'CONFLICT',
   data: { message: 'Product already exists' },
@@ -48,4 +56,5 @@ module.exports = {
   mockServiceResponseNotFound,
   mockServiceResponseCreated,
   mockServiceResponseProductExist, 
+  mockServiceResponseUpdated,
 };

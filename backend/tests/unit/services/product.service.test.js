@@ -98,4 +98,32 @@ describe('PRODUCT SERVICE', function () {
     expect(result.status).to.be.eq('NOT_FOUND');
     expect(result.data).to.be.deep.equal({ message: 'Product not found' });
   });
+
+  it('Retorna status 200 e o novo produto atualizado', async function () {
+    const product = {
+      id: 1,
+      name: 'productX',
+    };
+
+    sinon.stub(productModel, 'updateProduct').resolves(1);
+
+    const result = await productService.updateProduct(product);
+
+    expect(result.status).to.be.eq('SUCCESSFUL');
+    expect(result.data).to.be.deep.equal(product);
+  });
+
+  it('Retorna status 404 e mensagem de produto não encontrado no caso de não existir um produto para atualizar', async function () {
+    const product = {
+      id: 99,
+      name: 'productX',
+    };
+
+    sinon.stub(productModel, 'updateProduct').resolves(0);
+
+    const result = await productService.updateProduct(product);
+
+    expect(result.status).to.be.eq('NOT_FOUND');
+    expect(result.data).to.be.deep.equal({ message: 'Product not found' });
+  });
 });

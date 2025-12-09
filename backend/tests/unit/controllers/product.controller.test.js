@@ -6,7 +6,8 @@ const {
   mockServiceResponseSuccessById, 
   mockServiceResponseNotFound, 
   mockServiceResponseCreated,
-  mockServiceResponseProductExist, 
+  mockServiceResponseProductExist,
+  mockServiceResponseUpdated, 
 } = require('./mocks/mocksProductController');
 const { productService } = require('../../../src/services/index');
 const { productController } = require('../../../src/controllers/index');
@@ -166,6 +167,52 @@ describe('PRODUCT CONTROLLER', function () {
     // Act
 
     await productController.deleteProduct(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseNotFound.data);
+  });
+
+  it('Produto atualizado com sucesso', async function () {
+    // Arrange
+    const req = {
+      params: { id: 1 },
+      body: { name: 'testee' },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'updateProduct').resolves(mockServiceResponseUpdated);
+
+    // Act
+
+    await productController.updateProduct(req, res);
+
+    // Assert
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(mockServiceResponseUpdated.data);
+  });
+
+  it('Produto atualizado sem sucesso', async function () {
+    // Arrange
+    const req = {
+      params: { id: 9 },
+      body: { name: 'testee' },
+    };
+    
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    sinon.stub(productService, 'updateProduct').resolves(mockServiceResponseNotFound);
+
+    // Act
+
+    await productController.updateProduct(req, res);
 
     // Assert
     expect(res.status).to.have.been.calledWith(404);

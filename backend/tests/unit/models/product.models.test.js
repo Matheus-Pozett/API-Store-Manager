@@ -93,4 +93,30 @@ describe('PRODUCT MODEL', function () {
 
     expect(result).to.be.eq(0);
   });
+
+  it('Atualiza produto com sucesso', async function () {
+    const product = {
+      id: 1,
+      name: 'productX',
+    };
+
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+    const result = await productModel.updateProduct(product);
+
+    expect(result).to.be.eq(1);
+  });
+
+  it('Não atualiza produto caso não exista', async function () {
+    const product = {
+      id: 99,
+      name: 'productX',
+    };
+
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 0 }]);
+
+    const result = await productModel.updateProduct(product);
+
+    expect(result).to.be.eq(0);
+  });
 });

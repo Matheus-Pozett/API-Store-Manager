@@ -1,305 +1,142 @@
-# Boas-vindas ao repositório do projeto Store Manager
+# Store Manager API
 
-Para realizar o projeto, atente-se a cada passo descrito a seguir, e se tiver **qualquer dúvida**, nos envie no _Slack_ da turma! #vqv 🚀
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)
 
-Aqui, você vai encontrar os detalhes de como estruturar o desenvolvimento do seu projeto a partir desse repositório, utilizando uma branch específica e um _Pull Request_ para colocar seus códigos.
+## Sobre o Projeto
 
-<details>
-<summary>📃 Termos e acordos</summary>
+O **Store Manager** é uma API RESTful desenvolvida para o gerenciamento de vendas e produtos de uma loja. O sistema permite criar, visualizar, deletar e atualizar produtos e vendas.
 
-- Ao iniciar este projeto, você concorda com as diretrizes do [Código de Conduta e do Manual da Pessoa Estudante da Trybe](https://app.betrybe.com/learn/student-manual/codigo-de-conduta-da-pessoa-estudante).
+O projeto foi construído utilizando a arquitetura **MSC (Model-Service-Controller)**, garantindo a segregação de responsabilidades, testabilidade e manutenibilidade do código.
 
-</details>
+---
 
-## Entregáveis
+## Tecnologias Utilizadas
 
-<details>
-<summary>🤷🏽‍♀️ Como entregar</summary>
+* **Node.js** & **Express**: Para construção da API.
+* **MySQL**: Banco de dados relacional.
+* **Docker**: Para containerização da aplicação e do banco de dados.
+* **Mocha, Chai & Sinon**: Para testes unitários.
+* **Joi**: Para validação de dados (Middlewares).
 
-- Para entregar o seu projeto você deverá criar um _Pull Request_ neste repositório.
+---
 
-- Lembre-se que você pode consultar nosso conteúdo sobre [Git & GitHub](https://app.betrybe.com/learn/course/5e938f69-6e32-43b3-9685-c936530fd326/module/fc998c60-386e-46bc-83ca-4269beb17e17/section/fe827a71-3222-4b4d-a66f-ed98e09961af/day/35e03d5e-6341-4a8c-84d1-b4308b2887ef/lesson/573db55d-f451-455d-bdb5-66545668f436) e nosso [Blog - Git & GitHub](https://blog.betrybe.com/tecnologia/git-e-github/) sempre que precisar!
+## Arquitetura e Design
 
-</details>
-  
-<details>
-<summary>🧑‍💻 O que deverá ser desenvolvido</summary>
+O projeto segue a arquitetura em camadas (Layered Architecture):
 
-- Você vai desenvolver uma API RESTful utilizando a arquitetura em camadas!
+1.  **Model**: Acesso direto ao banco de dados (MySQL).
+2.  **Service**: Regras de negócio e validações lógicas.
+3.  **Controller**: Interface com a requisição HTTP (Request/Response).
 
-- A API a ser construída é um sistema de gerenciamento de vendas em que será possível criar, visualizar, deletar e atualizar produtos e vendas. Você deverá utilizar o banco de dados MySQL para a gestão de dados.
+### Diagrama ER (Banco de Dados)
+A estrutura do banco consiste nas tabelas `products`, `sales` e a tabela de associação `sales_products`.
 
-- Você também irá desenvolver testes para garantir as funcionalidade das implementações, uma habilidade essencial para a pessoa desenvolvedora.
+* **Products**: Armazena os produtos (`id`, `name`).
+* **Sales**: Armazena a data da venda (`id`, `date`).
+* **Sales_Products**: Relacionamento N:N, armazenando a quantidade vendida de cada produto em cada venda.
 
-</details>
-  
-<details>
-  <summary>📝 Habilidades a serem trabalhadas </summary>
+## Como Rodar o Projeto
 
-Neste projeto, verificamos se você é capaz de:
+### Pré-requisitos
+* Docker e Docker Compose instalados.
 
-- Interagir com um banco de dados relacional MySQL;
-- Implementar uma API utilizando arquitetura em camadas;
-- Criar validações para os dados recebidos pela API;
-- Escrever testes para APIs para garantir a implementação dos endpoints;
+### Passo a Passo
 
-</details>
+1.  **Clone o repositório:**
+    ```bash
+    git clone git@github.com:Matheus-Pozett/API-Store-Manager.git
+    cd API-Store-Manager
+    ```
 
-<details>
-<summary>📆 Data de Entrega</summary>
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-- Este projeto é individual
+3.  **Suba os containers (Aplicação + Banco):**
+    ```bash
+    docker-compose up -d
+    ```
 
-- Serão `5` dias de projeto
+4.  **Acesse a API:**
+    O servidor estará rodando em `http://localhost:3001`.
 
-- Data de entrega para avaliação regular do projeto: `DD/MM/YYYY 14:00h`
+---
 
-</details>
+## Testes
 
-## Orientações
+O projeto possui ampla cobertura de testes unitários para garantir a confiabilidade das camadas Model, Service e Controller.
 
-> ⚠️ Aviso: Não é necessário entrar no container para rodar os testes e nem para iniciar a aplicação.
->
-> - O container `backend` inicia a aplicação automaticamente.
->
-> - Os testes do avaliador são executados fora do container. Caso não sejam definidas variáveis de ambiente, os testes irão assumir valores como os em [`env.example`](./env.example).
->
-> - ⚠️ É necessário ter a versão Node 16.14 ou superior instalada localmente.
->
-> ⚠️ Aviso 2: É necessário que a aplicação consiga tratar erros não esperados. Todos os testes do avaliador dependem que a aplicação esteja sempre rodando na porta 3001. Se por algum motivo a aplicação falhar, alguns testes podem ser impactados. Você pode revisar como lidar com erros revendo as duas lições abaixo:
-
-- [Middlewares Assíncronos](https://app.betrybe.com/learn/course/5e938f69-6e32-43b3-9685-c936530fd326/module/94d0e996-1827-4fbc-bc24-c99fb592925b/section/2ed87e4f-9049-4314-8091-8f71b1925cf6/day/27d3ea73-4725-48c0-b38c-8acc4dc4d40a/lesson/7c6ef235-b4b5-41d3-85c4-54b53169c15f)
-- [Lidando com erros](https://app.betrybe.com/learn/course/5e938f69-6e32-43b3-9685-c936530fd326/module/94d0e996-1827-4fbc-bc24-c99fb592925b/section/2ed87e4f-9049-4314-8091-8f71b1925cf6/day/27d3ea73-4725-48c0-b38c-8acc4dc4d40a/lesson/8637f4e5-9ea6-4bdb-8fad-0e10384f26d9)
-
-<details>
-<summary>🐳 Iniciando a aplicação no Docker Compose</summary>
-
-```bash
-# Instale as dependências
-npm install
-
-# Inicie os containers do compose `backend` e `db`
-# A aplicação estará disponível em `http://localhost:3001` em modo de desenvolvimento
-docker-compose up -d
-
-# É possível ver os logs da aplicação com `docker logs -n 10 -f <nome-do-container>`
-docker logs -n 10 -f store_manager
-```
-
-</details>
-
-<details>
-<summary>🖥️ Iniciando a aplicação localmente</summary>
-
-> ⚠️ Atenção: Ao rodar localmente, a aplicação deverá receber variáveis de ambiente como exemplificado em [`env.example`](./env.example) para poder se comunicar com o serviço de banco de dados.
+Para rodar os testes:
 
 ```bash
-# Instale as dependências
-npm install
-
-# Inicie apenas o serviço `db` no compose
-docker-compose up -d db
-
-# Inicie a aplicação em modo de desenvolvimento
-npm run dev:local
+npm test
 ```
 
-</details>
+## Endpoints
+
+### 🛒 Products
+| Método | Funcionalidade                            | URL                            |
+| ------ | ----------------------------------------- | ------------------------------ |
+| `GET`  | Retorna uma lista de produtos cadastrados | http://localhost:3001/products |
 
 <details>
-<summary>🛠 Desenvolvendo a aplicação e rodando testes</summary>
+  <summary>A resposta da requisição é a seguinte, com status 200:</summary>
 
-Passos básicos para o desenvolvimento:
-
-- Antes de rodar os testes do avaliador, garanta que a aplicação esteja executando;
-- Desenvolva a aplicação dentro do diretório `backend/src`;
-- Desenvolva os testes dentro do diretório `backend/tests`;
-    - Os arquivos de testes devem terminar com o sufixo `.test.js`.
-
-Segue um resumo dos comandos relacionados aos testes:
-
-> ⚠️ Atenção ⚠️
->
-> - Os testes do avaliador são executados fora do container na raiz do projeto.
-> - Os testes do avaliador só iniciam quando todos os testes do mocha estão passando.
-
-```bash
-#### Comandos dos testes do avaliador
-npm run lint     # roda a verificação do linter
-npm test         # roda todos os testes no terminal ou
-REQ=01 npm test  # rodando apenas o teste do requisito 01 pelo terminal ou
-npm run cy:open  # abre a interface gráfica do Cypress para rodar os testes
-
-#### Comandos dos testes com mocha
-npm run test:mocha     # roda os testes do mocha
-npm run test:coverage  # roda os testes e mostra a cobertura geral
-npm run test:mutation  # roda os testes e mostra a cobertura de mutações
-```
-
-</details>
-<details>
-<summary>🎲 Tabelas do banco de dados</summary>
-
-|Diagrama de Entidade-Relacionamento|
-|:--:|
-|![DER](./public/erStoreManager.png)|
-
-|Tabela|Formato|Notas|
-|---|---|---|
-|`products`|![Tabela Produtos](./public/tableproducts.png)|O `id` é gerado automaticamente|
-|`sales`|![Tabela Vendas](./public/tablesales.png)|O `id` e `date` são gerados automaticamente|
-|`sales_products`|![Tabela Vendas-Produtos](./public/tablesalesproducts.png)|Os registros nessa tabela são removidos automaticamente em caso de remoção do produto ou da venda relacionados (`ON DELETE CASCADE`)|
-
-- Os scripts para criar e popular o banco de dados podem ser vistos no diretório [`sql`](./sql);
-
-</details>
-
-> 💡 Dica: Para outros detalhes (ex: [debugging](./FAQ.md#debugging) 🐞), dê uma olhada na [FAQ](./FAQ.md) ou procure a monitoria. Bom&nbsp;projeto!&nbsp;🚀
-
-## Requisitos do projeto
-
-### 01 - Crie endpoints para listar produtos
-
-> 💡Dica: Comece criando pelo menos um teste do mocha para que os testes do avaliador funcionem.
-
-- O endpoint para listar produtos deve ser acessível através do caminho `GET /products` e `GET /products/:id`;
-- Através do caminho `GET /products`, todos os produtos devem ser retornados;
-- Através do caminho `GET /products/:id`, apenas o produto com o `id` presente na URL deve ser retornado;
-- O resultado da listagem deve ser **ordenado** de forma crescente pelo campo `id`;
-- Crie testes que garantem a funcionalidade implementada;
-
-> :warning: Em seus arquivos de `models`, `controllers` e `services` **não importe funções de forma desestruturada**, pois esta forma de importação gera problemas nos `stubs` dos testes unitários com `sinon`;
-
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que é possível listar todos os produtos**
-
-  Ao fazer uma requisição para `GET /products`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `200`:
-
-  ```json
-  [
-    {
-      "id": 1,
-      "name": "Martelo de Thor"
-    },
-    {
-      "id": 2,
-      "name": "Traje de encolhimento"
-    }
-    /* ... */
-  ]
-  ```
-
-- **Será validado que não é possível listar um produto que não existe**
-
-  Ao fazer uma requisição para `GET /products/:id`, se não existir um produto com o `id` presente na URL, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`:
-
-  ```json
-  { "message": "Product not found" }
-  ```
-
-- **Será validado que é possível listar um produto específico com sucesso**
-
-  Ao fazer uma requisição para `GET /products/:id`, caso exista um produto com o `id` presente na URL, o resultado retornado deverá ser conforme exibido abaixo, com um status http `200`:
-
-  ```json
+```json
+[
   {
     "id": 1,
     "name": "Martelo de Thor"
+  },
+  {
+    "id": 2,
+    "name": "Traje de encolhimento"
+   },
+  {
+    "id": 3,
+    "name": "Escudo do Capitão América"
   }
-  ```
+]
+```
 
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 30% das linhas e possíveis mutações em código
-    - Pelo menos 6 funções do código
+</details>
+<br>
+<br>
+
+| Método | Funcionalidade                                             | URL                                |
+| ------ | ---------------------------------------------------------- | ---------------------------------- |
+| `GET`  | Retorna um produto pelo id (substitua `:id` por um número) | http://localhost:3001/products/:id |
+
+<details>
+  <summary>A resposta da requisição é a seguinte, com status 200:</summary>
+
+```json
+{
+  "id": 1,
+  "name": "Martelo de Thor"
+}
+```
 
 </details>
 
 <details>
-<summary>💡Se quiser buscar os 100% de cobertura de testes, veja esta dica!</summary>
-
-Se quiser incluir as rotas na sua cobertura de testes, lembre-se que testes unitários testam funções - e o _router_ só faz chamadas, ele não implementa nenhuma função. O teste mais adequado para ele é de integração - fique à vontade para fazê-los para complementar seus testes unitários!
-
+  <summary>A requisição irá falhar nos seguintes casos:</summary>
+  - A rota retorna o código <code>404</code>, com a mensagem <code>Product not found</code> caso tente acessar um id não existente no banco.<br>
 </details>
+<br>
+<br>
 
-### 02 - Crie endpoints para listar vendas
-
-- O endpoint para listar vendas deve ser acessível através do caminho `GET /sales` e `GET /sales/:id`;
-- Através do caminho `GET /sales`, todas as vendas devem ser retornadas;
-- Através do caminho `GET /sales/:id`, apenas a venda com o `id` presente na URL deve ser retornada;
-- O resultado deve ser **ordenado** de forma crescente pelo campo `saleId`, em caso de empate, **ordenar** também de forma crescente pelo campo `productId`;
+| Método | Funcionalidade                           | URL                            |
+| ------ | ---------------------------------------- | ------------------------------ |
+| `POST` | Insere um novo produto no banco de dados | http://localhost:3001/products |
 
 <details>
-<summary>O que será testado:</summary>
-
-- **Será validado que é possível listar todas as vendas**
-
-  Ao fazer uma requisição para `GET /sales`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `200`:
-
-  ```json
-  [
-    {
-      "saleId": 1,
-      "date": "2021-09-09T04:54:29.000Z",
-      "productId": 1,
-      "quantity": 2
-    },
-    {
-      "saleId": 1,
-      "date": "2021-09-09T04:54:54.000Z",
-      "productId": 2,
-      "quantity": 2
-    }
-
-    /* ... */
-  ]
-  ```
-
-- **Será validado que não é possível listar uma venda que não existe**
-
-  Ao fazer uma requisição para `GET /sales/:id`, se não existir uma venda com o `id` presente na URL, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`:
-
-  ```json
-  { "message": "Sale not found" }
-  ```
-
-- **Será validado que é possível listar uma venda específica com sucesso**
-
-  Ao fazer uma requisição para `GET /sales/:id`, caso exista uma venda com o `id` presente na URL, o resultado retornado deverá ser conforme exibido abaixo, com um status http `200`:
-
-  ```json
-  [
-    {
-      "date": "2021-09-09T04:54:29.000Z",
-      "productId": 1,
-      "quantity": 2
-    },
-    {
-      "date": "2021-09-09T04:54:54.000Z",
-      "productId": 2,
-      "quantity": 2
-    }
-
-    /* ... */
-  ]
-  ```
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 30% das linhas e possíveis mutações em código
-    - Pelo menos 12 funções do código
-
-</details>
-
-> 💡 Dica: Você vai precisar buscar dados de mais de uma tabela para este requisito. Relembre o conteúdo sobre JOIN nas seções sobre MySQL caso necessário.
-
-### 03 - Crie endpoint para cadastrar produtos
-
-- O endpoint deve ser acessível através do caminho `POST /products`;
-- Os produtos enviados devem ser salvos na tabela `products` do banco de dados;
-- O corpo da requisição deverá seguir o formato abaixo:
+  <summary>A estrutura do <code>body</code> da requisição deverá seguir o padrão abaixo:</summary>
 
 ```json
 {
@@ -307,79 +144,166 @@ Se quiser incluir as rotas na sua cobertura de testes, lembre-se que testes unit
 }
 ```
 
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que é possível cadastrar um produto com sucesso**
-
-  Ao fazer uma requisição válida para `POST /products`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `201`:
-
-  ```json
-  {
-    "id": 4,
-    "name": "ProdutoX"
-  }
-  ```
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 30% das linhas e possíveis mutações em código
-    - Pelo menos 15 funções do código
-
-</details>
-
-### 04 - Crie validações para o cadastro de produtos
-
-- O endpoint de cadastro de produtos deve retornar mensagens de erro para requisições com dados inválidos;
-- Lembre-se, o banco de dados não deve ser acessado nas validações iniciais do corpo da requisição;
-
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que não é possível cadastrar um produto sem o campo `name`**
-
-  Se a requisição para `POST /products` não tiver o campo `name`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `400` :
-
-  ```json
-  { "message": "\"name\" is required" }
-  ```
-
-- **Será validado que não é possível cadastrar um produto com o campo `name` menor que 5 caracteres**
-
-  Se a requisição para `POST /products` não tiver `name` com pelo menos 5 caracteres, o resultado retornado deverá ser conforme exibido abaixo, com um status http `422`
-
-  ```json
-  { "message": "\"name\" length must be at least 5 characters long" }
-  ```
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 40% das linhas e possíveis mutações em código
-    - Pelo menos 15 funções do código
-
 </details>
 
 <details>
-<summary>💡 Dica: Para testar middlewares, você pode mockar a função next como no exemplo a seguir:</summary>
+  <summary>A resposta da requisição é a seguinte, com status 201:</summary>
 
-```js
-// ...
-const next = sinon.stub().returns(); // crie um stub
->
-myMiddlewares.validateMiddleware(req, res, next); // passe o `next` para o middleware junto com o `req` e `res`
->
-expect(next).to.have.been.calledWith(); // verifica se o `next` foi chamado pelo middleware
-// ...
+```json
+{
+  "id": 4,
+  "name": "ProdutoX"
+}
 ```
 
 </details>
 
-### 05 - Crie endpoint para cadastrar vendas
+<details>
+  <summary>A requisição irá falhar nos seguintes casos:</summary>
+  - A rota retorna o código <code>400</code>, com a mensagem <code>"name" is required</code> caso o campo name não seja informado no body da requisição;<br>
+  - A rota retorna o código <code>422</code>, com a mensagem <code>"name" length must be at least 5 characters long</code> caso o campo name tenha menos de 5 caracteres no body da requisição.<br>
+</details>
+<br>
+<br>
 
-- O endpoint de vendas deve ser acessível através do caminho `POST /sales`;
-- As vendas enviadas devem ser salvas nas tabelas `sales` e `sales_products` do banco de dados;
-- Deve ser possível cadastrar a venda de vários produtos através da uma mesma requisição;
-- O corpo da requisição deverá seguir o formato abaixo:
+| Método | Funcionalidade                                                                    | URL                                |
+| ------ | --------------------------------------------------------------------------------- | ---------------------------------- |
+| `PUT`  | Atualiza um produto no banco de dados pelo seu id (substitua `:id` por um número) | http://localhost:3001/products/:id |
+
+<details>
+  <summary>A estrutura do <code>body</code> da requisição deverá seguir o padrão abaixo:</summary>
+
+```json
+{
+  "name": "Martelo do Batman"
+}
+```
+
+</details>
+
+<details>
+  <summary>A resposta da requisição é a seguinte, com status 200:</summary>
+
+```json
+{
+  "id": 1,
+  "name": "Martelo do Batman"
+}
+```
+
+</details>
+
+<details>
+  <summary>A requisição irá falhar nos seguintes casos:</summary>
+  - A rota retorna o código <code>400</code>, com a mensagem <code>"name" is required</code> caso o campo name não seja informado no body da requisição;<br>
+  - A rota retorna o código <code>422</code>, com a mensagem <code>"name" length must be at least 5 characters long</code> caso o campo name tenha menos de 5 caracteres no body da requisição;<br>
+  - A rota retorna o código <code>404</code>, com a mensagem <code>Product not found</code> caso tente acessar um id não existente no banco.<br>
+</details>
+<br>
+<br>
+
+| Método   | Funcionalidade                                                      | URL                                |
+| -------- | ------------------------------------------------------------------- | ---------------------------------- |
+| `DELETE` | Remove um produto do banco de dados (substitua `:id` por um número) | http://localhost:3001/products/:id |
+
+A rota retorna o status 204, <code>sem resposta</code>.
+
+<details>
+  <summary>A requisição irá falhar nos seguintes casos:</summary>
+  - A rota retorna o código <code>404</code>, com a mensagem <code>Product not found</code> caso tente acessar um id não existente no banco.<br>
+</details>
+<br>
+<br>
+
+| Método | Funcionalidade                                                                                    | URL                                                 |
+| ------ | ------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `GET`  | Retorna uma lista de produtos com base em um filtro (substitua `searchTerm` pelo nome do produto) | http://localhost:3001/products/search?q=searchTerm |
+
+<details>
+  <summary>A resposta da requisição é a seguinte, com status 200:</summary>
+
+```json
+// GET /products/search?q=Martelo
+
+[
+  {
+    "id": 1,
+    "name": "Martelo de Thor",
+  }
+]
+```
+
+</details>
+<br>
+<br>
+
+### 💸 Sales
+| Método | Funcionalidade                          | URL                         |
+| ------ | --------------------------------------- | --------------------------- |
+| `GET`  | Retorna uma lista de vendas cadastradas | http://localhost:3001/sales |
+
+<details>
+  <summary>A resposta da requisição é a seguinte, com status 200:</summary>
+  
+```json
+[
+  {
+    "saleId": 1,
+    "productId": 1,
+    "quantity": 5,
+    "date": "2022-10-25T21:03:44.000Z"
+  },
+  {
+    "saleId": 1,
+    "productId": 2,
+    "quantity": 10,
+    "date": "2022-10-25T21:03:44.000Z"
+  },
+  {
+    "saleId": 2,
+    "productId": 3,
+    "quantity": 15,
+    "date": "2022-10-25T21:03:44.000Z"
+  }
+]
+```
+
+</details>
+<br>
+<br>
+
+| Método | Funcionalidade                                           | URL                             |
+| ------ | -------------------------------------------------------- | ------------------------------- |
+| `GET`  | Retorna uma venda pelo id (substitua `id` por um número) | http://localhost:3001/sales/:id |
+
+<details>
+  <summary>A resposta da requisição é a seguinte, com status 200:</summary>
+  
+```json
+[
+  {
+    "productId": 1,
+    "quantity": 5,
+    "date": "2022-10-25T21:03:44.000Z"
+  },
+  {
+    "productId": 2,
+    "quantity": 10,
+    "date": "2022-10-25T21:03:44.000Z"
+  }
+]
+```
+
+</details>
+<br>
+<br>
+
+| Método | Funcionalidade                       | URL                         |
+| ------ | ------------------------------------ | --------------------------- |
+| `POST` | Adiciona uma venda no banco de dados | http://localhost:3001/sales |
+
+<details>
+  <summary>A estrutura do <code>body</code> da requisição deverá seguir o padrão abaixo:</summary>
 
 ```json
 [
@@ -394,365 +318,89 @@ expect(next).to.have.been.calledWith(); // verifica se o `next` foi chamado pelo
 ]
 ```
 
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que é possível cadastrar uma venda com sucesso**
-
-  Ao fazer uma requisição válida para `POST /sales`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `201`:
-
-  ```json
-  {
-    "id": 3,
-    "itemsSold": [
-      {
-        "productId": 1,
-        "quantity": 1
-      },
-      {
-        "productId": 2,
-        "quantity": 5
-      }
-    ]
-  }
-  ```
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 40% das linhas e possíveis mutações em código
-    - Pelo menos 18 funções do código
-
 </details>
 
-### 06 - Crie validações para o cadastro de vendas
-
-- O endpoint de cadastro de vendas deve retornar mensagens de erro para requisições com dados inválidos;
-
 <details>
-<summary>O que será testado:</summary>
-
-- **Será validado que não é possível cadastrar uma venda sem o campo `productId`**
-
-  Se algum dos itens da requisição para `POST /sales` não tiver o campo `productId`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `400`:
-
-  ```json
-  { "message": "\"productId\" is required" }
-  ```
-
-- **Será validado que não é possível cadastrar uma venda sem o campo `quantity`**
-
-  Se algum dos itens da requisição para `POST /sales` não tiver o campo `quantity`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `400` :
-
-  ```json
-  { "message": "\"quantity\" is required" }
-  ```
-
-- **Será validado que não é possível cadastrar uma venda com o campo `quantity` menor ou igual a 0 (Zero)**
-
-  Se a requisição para `POST /sales` tiver algum item em que o campo `quantity` seja menor ou igual a zero, o resultado retornado deverá ser conforme exibido abaixo, com um status http `422`
-
-  ```json
-  { "message": "\"quantity\" must be greater than or equal to 1" }
-  ```
-
-- **Será validado que não é possível cadastrar uma venda com o campo `productId` inexistente, em uma requisição com um único item**
-
-  Se o campo `productId` do item da requisição para `POST /sales` não existir no banco de dados, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`
-
-  ```json
-  { "message": "Product not found" }
-  ```
-
-- **Será validado que não é possível cadastrar uma venda com o campo `productId` inexistente, em uma requisição com vários items**
-
-  Se a requisição para `POST /sales` tiver algum item cujo campo `productId` não existe no banco de dados, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`
-
-  ```json
-  { "message": "Product not found" }
-  ```
-
-- **Será validado que os testes estão cobrindo:**
+  <summary>A resposta da requisição é a seguinte, com status 201:</summary>
   
-    - Pelo menos 50% das linhas e possíveis mutações em código
-    - Pelo menos 18 funções do código
-
-</details>
-
-### 07 - Crie endpoint para atualizar um produto
-
-- O endpoint deve ser acessível através do caminho `PUT /products/:id`;
-- Apenas o produto com o `id` presente na URL deve ser atualizado;
-- O corpo da requisição deve ser validado igual no cadastro;
-- O corpo da requisição deverá seguir o formato abaixo:
-
 ```json
 {
-  "name": "Martelo do Batman"
-}
-```
-
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que não é possível alterar um produto sem o campo `name`**
-
-  Se a requisição para `PUT /products/:id` não tiver o campo `name`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `400` :
-
-  ```json
-  { "message": "\"name\" is required" }
-  ```
-
-- **Será validado que não é possível alterar um produto com o campo `name` menor que 5 caracteres**
-
-  Se a requisição para `PUT /products/:id` não tiver `name` com pelo menos 5 caracteres, o resultado retornado deverá ser conforme exibido abaixo, com um status http `422`
-
-  ```json
-  { "message": "\"name\" length must be at least 5 characters long" }
-  ```
-
-- **Será validado que não é possível alterar um produto que não existe**
-  
-  Se a requisição para `PUT /products/:id` informar o `id` de um produto inexistente, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`:
-
-    ```json
-      { "message": "Product not found" }
-    ```
-
-- **Será validado que é possível alterar um produto com sucesso**
-
-  Ao fazer uma requisição válida para `PUT /products/:id`, o resultado retornado deverá ser conforme exibido abaixo, com um status http`200`:
-
-  ```json
-  {
-    "id": 1,
-    "name": "Martelo do Batman"
-  }
-  ```
-
-  Também será verificado que o produto foi alterado corretamente no banco de dados.
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 50% das linhas e possíveis mutações em código
-    - Pelo menos 21 funções do código
-
-</details>
-
-### 08 - Crie endpoint para deletar um produto
-
-- O endpoint deve ser acessível através do caminho `DELETE /products/:id`;
-- Apenas o produto com o `id` presente na URL deve ser deletado;
-
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que não é possível deletar um produto que não existe**
-
-  Se a requisição para `DELETE /products/:id` informar o `id` de um produto inexistente, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`:
-
-  ```json
-    { "message": "Product not found" }
-  ```
-
-- **Será validado que é possível deletar um produto com sucesso**
-
-  Ao fazer uma requisição válida para `DELETE /products/:id`, não deve ser retornada nenhuma resposta, apenas um status http `204`;
-
-  Também será verificado que o produto foi removido corretamente no banco de dados.
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 60% das linhas e possíveis mutações em código
-    - Pelo menos 24 funções do código
-
-</details>
-
-## Requisitos Bônus
-
-### 09 - Crie endpoint para deletar uma venda
-
-- O endpoint deve ser acessível através do caminho `DELETE /sales/:id`;
-- Apenas a venda com o `id` presente na URL deve ser deletada;
-
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que não é possível deletar uma venda que não existe**
-  
-  Se a requisição para `DELETE /sales/:id` informar o `id` de uma venda inexistente, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`:
-
-  ```json
-    { "message": "Sale not found" }
-  ```
-
-- **Será validado que é possível deletar uma venda com sucesso**
-
-  Ao fazer uma requisição válida para `DELETE /sales/:id`, não deve ser retornada nenhuma resposta, apenas um status http `204`;
-
-  Também será verificado que a venda foi removida corretamente no banco de dados.
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 70% das linhas e possíveis mutações em código
-    - Pelo menos 27 funções do código
-
-</details>
-
-### 10 - Crie endpoint para atualizar a quantidade de um produto em uma venda
-
-- O endpoint deve ser acessível através do caminho `/sales/:saleId/products/:productId/quantity`;
-- Apenas a quantidade do produto vendido com o `productId` na URL deve ser atualizada;
-- O corpo da requisição receberá um valor `quantity`, que:
-    - Deverá ser validado como o valor `quantity` para produtos recebidos na requisição de cadastro de venda;
-    - Substituirá o valor atual de `quantity` do produto com o `productId` na venda;
-- O corpo da requisição deverá seguir o formato abaixo:
-
-```json
-{
-  "quantity": 20
-}
-```
-
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que não é possível realizar alterações em uma venda sem o campo `quantity`**
-
-  Se a requisição para `PUT /sales/:saleId/products/:productId/quantity` não tiver o campo `quantity`, o resultado retornado deverá ser conforme exibido abaixo, com um status http `400`:
-
-  ```json
-  { "message": "\"quantity\" is required" }
-  ```
-
-- **Será validado que não é possível realizar alterações em uma venda com o campo `quantity` menor ou igual a 0 (Zero)**
-
-  Se a requisição para `PUT /sales/:saleId/products/:productId/quantity` tiver o campo `quantity` menor que zero, o resultado retornado deverá ser conforme exibido abaixo, com um status http `422`:
-
-  ```json
-  { "message": "\"quantity\" must be greater than or equal to 1" }
-  ```
-
-- **Será validado que não é possível realizar alterações em uma venda com `productId` inexistente**
-
-  Se a requisição para `PUT /sales/:saleId/products/:productId/quantity` tiver o campo `productId` com um valor não existente no banco, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`:
-
-  ```json
-  { "message": "Product not found in sale" }
-  ```
-
-- **Será validado que não é possível alterar uma venda que não existe**
-
-  Se a requisição para `PUT /sales/:saleId/products/:productId/quantity` informar o `saleId` de uma venda inexistente, o resultado retornado deverá ser conforme exibido abaixo, com um status http `404`:
-
-  ```json
-    { "message": "Sale not found" }
-  ```
-
-- **Será validado que é possível alterar a quantidade de um produto de uma venda com sucesso**
-
-  Ao fazer uma requisição válida para `PUT /sales/:saleId/products/:productId/quantity`, o produto atualizado deverá ser retornado conforme exibido abaixo, com um status http `200`:
-
-  ```json
-  {
-    "date": "2023-05-06T03:14:28.000Z",
-    "productId": 2,
-    "quantity": 20,
-    "saleId": 1
-  }
-  ```
-
-  Também será verificado que a quantidade do produto foi alterada corretamente no banco de dados.
-
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 70% das linhas e possíveis mutações em código
-    - Pelo menos 30 funções do código
-
-</details>
-
-### 11 - Crie endpoint para pesquisar produtos
-
-- O endpoint deve ser acessível através do URL `GET /products/search`;
-- O endpoint deve ser capaz de trazer todos os produtos no banco de dados contendo o valor da query `q` em `name`, se existirem;
-- Sua aplicação deve ser capaz de retornar um array de produtos que contenham em seu nome o termo passado na URL;
-- Sua aplicação deve ser capaz de retornar todos os produtos caso _query params_ `q` esteja vazia;
-- Sua aplicação deve ser capaz de retornar um array vazio caso nenhum nome satisfaça a busca;
-- O _query params_ da requisição deverá seguir o formato abaixo:
-
-```text
-  http://localhost:PORT/products/search?q=Martelo
-```
-
-<details>
-<summary>O que será testado:</summary>
-
-- **Será validado que é possível buscar um produto pelo `name`**
-
-  Se a requisição para `GET /products/search` for feita com um _query params_ `q` cujo valor exista no atributo `name` de algum produto, o resultado retornado deverá ser conforme exibido abaixo, com um status http `200`:
-
-  ```json
-  // GET /products/search?q=Martelo
-
-  [
+  "id": 3,
+  "itemsSold": [
     {
-      "id": 1,
-      "name": "Martelo de Thor"
-    }
-  ]
-  ```
-
-- **Será validado que é possível buscar todos os produtos quando passa a busca vazia**
-
-  Se a requisição para `GET /products/search` foi feita com um _query params_ `q` vazio, o resultado retornado deverá ser conforme exibido abaixo, com um status http `200`:
-
-  ```json
-  // GET /products/search?q=
-
-  [
-    {
-      "id": 1,
-      "name": "Martelo de Thor",
+      "productId": 1,
+      "quantity": 1
     },
     {
-      "id": 2,
-      "name": "Traje de encolhimento",
+      "productId": 2,
+      "quantity": 5
     }
-    /* ... */
   ]
-  ```
+}
+```
 
-- **Será validado que a busca retorna um array vazio quando não há produtos correspondentes**
+</details>
 
-  Se a requisição para `GET /products/search` for feita com um _query params_ `q` cujo valor não exista no atributo `name` de nenhum produto, o resultado retornado deverá ser um array vazio, com um status http `200`:
+<details>
+  <summary>A requisição irá falhar nos seguintes casos:</summary>
+  - A rota retorna o código <code>400</code>, com a mensagem <code>"productId" is required</code> caso algum dos itens na lista de vendas não possua o campo productId no body da requisição;<br>
+  - A rota retorna o código <code>400</code>, com a mensagem <code>"quantity" is required</code> caso algum dos itens na lista de vendas não possua o campo quantity no body da requisição;<br>
+  - A rota retorna o código <code>422</code>, com a mensagem <code>"quantity" must be greater than or equal to 1</code> caso algum dos itens na lista de vendas possua o campo quantity com valor abaixo de 1 no body da requisição;<br>
+  - A rota retorna o código <code>404</code>, com a mensagem <code>Product not found</code> caso tente acessar um id não existente no banco.<br>
+</details>
+<br>
+<br>
 
-  ```json
-  // GET /products/search?q=ProdutoInexistente
+| Método | Funcionalidade                                                      | URL                             |
+| ------ | ------------------------------------------------------------------- | ------------------------------- |
+| `PUT`  | Atualiza uma venda no banco de dados (substitua `id` por um número) | http://localhost:3001/sales/:saleId/products/:productId/quantity |
 
-  []
-  ```
+<details>
+  <summary>A estrutura do <code>body</code> da requisição deverá seguir o padrão abaixo:</summary>
+
+```json
+  {
+    "quantity": 10
+  }
+```
+
+</details>
+
+<details>
+  <summary>A resposta da requisição é a seguinte, com status 200:</summary>
   
-- **Será validado que os testes estão cobrindo:**
-  
-    - Pelo menos 70% das linhas e possíveis mutações em código
-    - Pelo menos 33 funções do código
+```json
+{
+  "saleId": 1,
+  "productId": 2,
+  "quantity": 20,
+  "date": "2023-05-06T03:14:28.000Z"
+}
+```
 
+</details>
+
+<details>
+  <summary>A requisição irá falhar nos seguintes casos:</summary>
+  - A rota retorna o código <code>400</code>, com a mensagem <code>"productId" is required</code> caso algum dos itens na lista de vendas não possua o campo productId no body da requisição;<br>
+  - A rota retorna o código <code>400</code>, com a mensagem <code>"quantity" is required</code> caso algum dos itens na lista de vendas não possua o campo quantity no body da requisição;<br>
+  - A rota retorna o código <code>400</code>, com a mensagem <code>"quantity" must be greater than or equal to 1</code> caso algum dos itens na lista de vendas possua o campo quantity com valor abaixo de 1 no body da requisição;<br>
+  - A rota retorna o código <code>404</code>, com a mensagem <code>Sale not found</code> caso tente acessar um id não existente no banco.<br>
+</details>
+<br>
+<br>
+
+| Método   | Funcionalidade                                                     | URL                             |
+| -------- | ------------------------------------------------------------------ | ------------------------------- |
+| `DELETE` | Remove uma venda do banco de dados (substitua `:id` por um número) | http://localhost:3001/sales/:id |
+
+A rota retorna o status 204, <code>sem resposta</code>.
+
+<details>
+  <summary>A requisição irá falhar nos seguintes casos:</summary>
+  - A rota retorna o código <code>404</code>, com a mensagem <code>Sale not found</code> caso tente acessar um id não existente no banco.<br>
 </details>
 
 ---
 
-<details>
-<summary>🗣 Nos dê feedbacks sobre o projeto!</summary>
-
-Ao finalizar e submeter o projeto, não se esqueça de avaliar sua experiência preenchendo o formulário.
-**Leva menos de 3 minutos!**
-
-[Formulário de avaliação do projeto](https://be-trybe.typeform.com/to/ZTeR4IbH#cohort_hidden=CH39&template=betrybe/sd-0x-store-manager)
-
-</details>
-  
-<details>
-<summary>🗂 Compartilhe seu portfólio!</summary>
-
-Você sabia que o LinkedIn é a principal rede social profissional e compartilhar o seu aprendizado lá é muito importante para quem deseja construir uma carreira de sucesso? Compartilhe esse projeto no seu LinkedIn, marque o perfil da Trybe (@trybe) e mostre para a sua rede toda a sua evolução.
-
-</details>
+Desenvolvido 💚 por [Matheus Pozett](https://www.linkedin.com/in/matheus-pozett/)

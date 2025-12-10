@@ -1,5 +1,5 @@
 {
-  "name": "sd-0x-store-manager",
+  "name": "store-manager",
   "version": "2.0.0",
   "description": "Projeto Store Manager",
   "author": "Trybe",
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev:local": "npm run dev --prefix backend",
-    "test:mocha": "npm run test:mocha --prefix backend",
+    "test": "npm run test:mocha --prefix backend",
     "test:coverage": "npm run test:coverage --prefix backend",
     "test:mutation": "npm run test:mutation --prefix backend"
   },

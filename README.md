@@ -353,7 +353,7 @@ A rota retorna o status 204, <code>sem resposta</code>.
 
 | Método | Funcionalidade                                                      | URL                             |
 | ------ | ------------------------------------------------------------------- | ------------------------------- |
-| `PUT`  | Atualiza uma venda no banco de dados (substitua `id` por um número) | http://localhost:3001/sales/:id |
+| `PUT`  | Atualiza uma venda no banco de dados (substitua `id` por um número) | http://localhost:3001/sales/:saleId/products/:productId/quantity |
 
 <details>
   <summary>A estrutura do <code>body</code> da requisição deverá seguir o padrão abaixo:</summary>
@@ -370,17 +370,12 @@ A rota retorna o status 204, <code>sem resposta</code>.
   <summary>A resposta da requisição é a seguinte, com status 200:</summary>
   
 ```json
-"saleId": 1,
-  "itemsUpdated": [
-    {
-      "productId": 1,
-      "quantity":10
-    },
-    {
-      "productId": 2,
-      "quantity":50
-    }
-  ]
+{
+  "saleId": 1,
+  "productId": 2,
+  "quantity": 20,
+  "date": "2023-05-06T03:14:28.000Z"
+}
 ```
 
 </details>
